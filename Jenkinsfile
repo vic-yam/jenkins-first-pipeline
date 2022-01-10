@@ -8,6 +8,7 @@ pipeline {
     environment {
         DISABLE_AUTH = 'true'
         DB_ENGINE    = 'sqlite'
+        CRED = credentials('jenkins-first-pipeline')
     }
     stages {
         stage('build') {
@@ -17,7 +18,7 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}, with cread: ${CRED}"
             }
         }
         stage('Build') {
