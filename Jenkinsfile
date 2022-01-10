@@ -8,7 +8,7 @@ pipeline {
     environment {
         DISABLE_AUTH = 'true'
         DB_ENGINE    = 'sqlite'
-        CRED = credentials('b1104a26-8af3-4dff-8fc1-c6116faada6a')
+        CRED = credentials('the-id')
     }
     stages {
         stage('build') {
