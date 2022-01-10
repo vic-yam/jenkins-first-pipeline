@@ -2,13 +2,12 @@ pipeline {
     agent {
         docker {
             image 'node:16.13.1-alpine'
-           
         }
     }
     environment {
         DISABLE_AUTH = 'true'
         DB_ENGINE    = 'sqlite'
-        CRED = credentials('jenkins-first-pipeline')
+        CRED = credentials('the-id')
     }
     stages {
         stage('build') {
