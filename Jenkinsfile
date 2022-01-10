@@ -18,7 +18,8 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}, with cread: ${CRED}"
+                sh('''echo Running ${env.BUILD_ID} on ${env.JENKINS_URL}, with cread: ${CRED}'''
+                
             }
         }
         stage('Build') {
