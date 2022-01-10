@@ -8,26 +8,9 @@ pipeline {
     environment {
         DISABLE_AUTH = 'true'
         DB_ENGINE    = 'sqlite'
-        CRED = credentials('the-id')
+        CRED = credentials('jenkins-first-pipeline')
     }
     stages {
-        stage('write-to-file') {
-            steps {
-                sh "printf 'Hello, Im %s' ${CRED} > file.txt"
-            }
-        }
-        stage('read-from-file') {
-            steps {
-                sh '''
-                input="file.txt"
-
-                while IFS= read -r line
-                    do
-                    echo "$line"
-                    done < "$input"
-                '''
-            }
-        }
         stage('build') {
             steps {
                 sh 'node --version'
@@ -35,6 +18,7 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             }
         }
         stage('Build') {
@@ -47,24 +31,7 @@ pipeline {
     }
      post {
         always {
-            echo 'removing file.txt'
-            sh '''
-            FILE=file.txt
-            if test -f "$FILE"; then
-                echo "$FILE exists."
-            else
-                echo "$FILE does not exist."
-            fi
-            '''
-            sh 'rm file.txt'
-            sh '''
-            FILE=file.txt
-            if test -f "$FILE"; then
-                echo "$FILE exists."
-            else
-                echo "$FILE does not exist."
-            fi
-            '''
+            echo 'This will always run'
         }
         success {
             echo 'This will run only if successful'
