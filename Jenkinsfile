@@ -3,6 +3,7 @@ pipeline {
         docker {
             image 'node:16.13.1-alpine'
         }
+        label 'build_server'
     }
     environment {
         DISABLE_AUTH = 'true'
