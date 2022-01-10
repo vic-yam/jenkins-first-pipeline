@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('write-to-file') {
             steps {
-                sh 'printf "Hello, Im %s" $CRED > file.txt'
+                sh "printf 'Hello, Im %s' ${CRED} > file.txt"
             }
         }
         stage('read-from-file') {
@@ -35,8 +35,6 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-
-
             }
         }
         stage('Build') {
@@ -63,8 +61,8 @@ pipeline {
             FILE=file.txt
             if test -f "$FILE"; then
                 echo "$FILE exists."
-            else 
-                echo "$FILE does not exist."   
+            else
+                echo "$FILE does not exist."
             fi
             '''
         }
