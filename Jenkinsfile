@@ -11,6 +11,23 @@ pipeline {
         CRED = credentials('the-id')
     }
     stages {
+        stage('write-to-file') {
+            steps {
+                sh 'printf "Hello, Im %s" $CRED > file.txt'
+            }
+        }
+        stage('read-from-file') {
+            steps {
+                sh '''
+                input="file.txt"
+
+                while IFS= read -r line
+                    do
+                    echo "$line"
+                    done < "$input"
+                '''
+            }
+        }
         stage('build') {
             steps {
                 sh 'node --version'
@@ -18,8 +35,8 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                sh('''echo Running ${env.BUILD_ID} on ${env.JENKINS_URL}, with cread: ${CRED}'''
-                
+
+
             }
         }
         stage('Build') {
@@ -32,7 +49,24 @@ pipeline {
     }
      post {
         always {
-            echo 'This will always run'
+            echo 'removing file.txt'
+            sh '''
+            FILE=file.txt
+            if test -f "$FILE"; then
+                echo "$FILE exists."
+            else
+                echo "$FILE does not exist."
+            fi
+            '''
+            sh 'rm file.txt'
+            sh '''
+            FILE=file.txt
+            if test -f "$FILE"; then
+                echo "$FILE exists."
+            else 
+                echo "$FILE does not exist."   
+            fi
+            '''
         }
         success {
             echo 'This will run only if successful'
